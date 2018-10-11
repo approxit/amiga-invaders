@@ -40,5 +40,8 @@ void monsterSetPrevAlive();
 UBYTE monsterCheckCollision(UWORD uwX, UWORD uwY);
 void monsterKill(UBYTE ubMonsterIndex);
 void monsterGenerate(UBYTE ubMonsterType, UBYTE ubMonsterCount, UWORD uwCoordX, UWORD uwCoordY, UWORD uwDistanceX, UWORD uwShiftY);
+void monsterRemoveAll();
+UBYTE monsterIsAnyAlive();
+UBYTE monsterIsAnyTooLow();
 
 #endif

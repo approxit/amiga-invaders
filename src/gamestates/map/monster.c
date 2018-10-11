@@ -5,6 +5,7 @@
 
 #include "game.h"
 #include "atlas.h"
+#include "gamestates/map/ship.h"
 
 tBitMap *pMonsterBitMapAtlas[MONSTER_TYPE_COUNT][MONSTER_ATLAS_SIZE];
 tBitMap *pMonsterBitMapMaskAtlas[MONSTER_TYPE_COUNT][MONSTER_ATLAS_SIZE];
@@ -77,7 +78,6 @@ void monsterUndrawIndex(UBYTE ubMonsterIndex) {
 }
 
 void monsterMove() {
-    logWrite("ubMonsterUpdateIndex: %d\n", ubMonsterUpdateIndex);
     if (ubMonsterUpdateIndex < ubMonsterCount) {
         monsterUndrawIndex(ubMonsterUpdateIndex);
 
@@ -186,4 +186,33 @@ void monsterGenerate(UBYTE ubMonsterType, UBYTE ubCount, UWORD uwCoordX, UWORD u
 
         ++ubMonsterCount;
     }
+}
+
+void monsterRemoveAll() {
+    ubMonsterCount = 0;
+}
+
+UBYTE monsterIsAnyAlive() {
+    UBYTE ubIndex = ubMonsterCount;
+    while (ubIndex--) {
+        if (pMonsters[ubIndex].ubType != MONSTER_TYPE_COUNT) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+UBYTE monsterIsAnyTooLow() {
+    UBYTE ubIndex = ubMonsterCount;
+    while (ubIndex--) {
+        if (pMonsters[ubIndex].ubType != MONSTER_TYPE_COUNT) {
+            if (g_sShipCoord.sUwCoord.uwY <= pMonsters[ubIndex].sCoord.sUwCoord.uwY + MONSTER_HEIGHT) {
+                logWrite("TOO LOW\n");
+                return 1;
+            }
+        }
+    }
+
+    return 0;
 }
