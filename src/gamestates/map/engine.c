@@ -2,7 +2,6 @@
 
 #include <ace/managers/blit.h>
 
-#include "game.h"
 #include "atlas.h"
 #include "gamestates/map/ship.h"
 

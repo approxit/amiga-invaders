@@ -8,6 +8,7 @@
 #include "gamestates/map/ship.h"
 #include "gamestates/map/engine.h"
 #include "gamestates/map/projectile.h"
+#include "gamestates/map/monster.h"
 
 BYTE bMoveDir = 0;
 
@@ -17,12 +18,16 @@ void gsMapCreate() {
     shipCreateBitMapAtlas();
     engineCreateBitMapAtlas();
     projectileCreateBitMapAtlas();
+    monsterCreateBitMapAtlas();
+
+    mapLoadLevel();
 
     g_sShipCoord.sUwCoord.uwX = (WINDOW_SCREEN_WIDTH + SHIP_WIDTH) >> 2;
-    g_sShipCoord.sUwCoord.uwY = WINDOW_SCREEN_HEIGHT - SHIP_HEIGHT - 24;
+    g_sShipCoord.sUwCoord.uwY = WINDOW_SCREEN_HEIGHT - SHIP_HEIGHT - 6;
 
     shipDraw();
     engineDraw();
+    monsterDraw();
 }
 
 void gsMapLoop() {
@@ -65,6 +70,7 @@ void gsMapLoop() {
 
     shipMove();
     projectileMove();
+    monsterMove();
 
     if (shipIsJustMoved() || shipIsJustTilted() || engineIsPowerJustChanged()) {
         undrawShipWithEngine();
@@ -83,6 +89,7 @@ void gsMapDestroy() {
     shipDestroyBitMapAtlas();
     engineDestroyBitMapAtlas();
     projectileDestroyBitMapAtlas();
+    monsterDestroyBitMapAtlas();
 }
 
 void undrawShipWithEngine() {
@@ -92,4 +99,12 @@ void undrawShipWithEngine() {
         MAX(SHIP_WIDTH, ENGINE_WIDTH), MAX(SHIP_HEIGHT, ENGINE_SHIFT_Y + ENGINE_HEIGHT),
         MINTERM_COOKIE, 0xFF
     );
+}
+
+void mapLoadLevel() {
+    monsterGenerate(MONSTER_TYPE_RED, 6, 50, 20, 50, 0);
+    monsterGenerate(MONSTER_TYPE_GREEN, 11, 30, 50, 25, 8);
+    monsterGenerate(MONSTER_TYPE_GREEN, 11, 30, 80, 25, 8);
+    monsterGenerate(MONSTER_TYPE_GRAY, 11, 30, 110, 25, 8);
+    monsterGenerate(MONSTER_TYPE_GRAY, 11, 30, 140, 25, 8);
 }

@@ -2,14 +2,13 @@
 
 #include <ace/managers/blit.h>
 
-#include "game.h"
 #include "atlas.h"
 #include "gamestates/map/ship.h"
+#include "gamestates/map/monster.h"
 
 tBitMap *pProjectileBitMapAtlas[PROJECTILE_ATLAS_SIZE];
 tBitMap *pProjectileBitMapMaskAtlas[PROJECTILE_ATLAS_SIZE];
 
-ULONG ulProjectileTimer = 0;
 UBYTE ubProjectileFired = 0;
 tUwCoordYX sProjectileCoord;
 tUwCoordYX sProjectileLastCoord;
@@ -45,7 +44,7 @@ void projectileUndraw() {
 }
 
 void projectileFire() {
-    if (!ubProjectileFired && timerCheck(&ulProjectileTimer, PROJECTILE_TIMER)) {
+    if (!ubProjectileFired && !ubProjectileHeight && !ubProjectileLastHeight) {
         ubProjectileFired = 1;
         sProjectileCoord.sUwCoord.uwX = g_sShipCoord.sUwCoord.uwX + PROJECTILE_SHIFT_X;
         sProjectileCoord.sUwCoord.uwY = g_sShipCoord.sUwCoord.uwY - PROJECTILE_SHIFT_Y;
@@ -54,40 +53,46 @@ void projectileFire() {
 }
 
 void projectileMove() {
-    ubProjectileLastHeight = ubProjectileHeight;
+    sProjectileLastCoord.ulYX = sProjectileCoord.ulYX;
 
     if (ubProjectileFired) {
-        sProjectileLastCoord.ulYX = sProjectileCoord.ulYX;
-
         if (PROJECTILE_SPEED < sProjectileCoord.sUwCoord.uwY) {
             sProjectileCoord.sUwCoord.uwY -= PROJECTILE_SPEED;
         }
         else {
             sProjectileCoord.sUwCoord.uwY = 0;
+            ubProjectileFired = 0;
         }
 
-        if (sProjectileCoord.sUwCoord.uwY) {
-            if (ubProjectileHeight < PROJECTILE_HEIGHT - PROJECTILE_SPEED) {
-                ubProjectileHeight += PROJECTILE_SPEED;
-            }
-            else {
-                ubProjectileHeight = PROJECTILE_HEIGHT;
-            }
+        if (monsterCheckCollision(sProjectileCoord.sUwCoord.uwX, sProjectileCoord.sUwCoord.uwY)) {
+            ubProjectileFired = 0;
+        }
+    }
+
+    projectileAdjustHeight();
+}
+
+void projectileAdjustHeight() {
+    ubProjectileLastHeight = ubProjectileHeight;
+
+    if (ubProjectileFired) {
+        if (ubProjectileHeight < PROJECTILE_HEIGHT - PROJECTILE_SPEED) {
+            ubProjectileHeight += PROJECTILE_SPEED;
         }
         else {
-            if (PROJECTILE_SPEED < ubProjectileHeight) {
-                ubProjectileHeight -= PROJECTILE_SPEED;
-            }
-            else {
-                ubProjectileHeight = 0;
-                ubProjectileFired = 0;
-            }
+            ubProjectileHeight = PROJECTILE_HEIGHT;
         }
-
-        logWrite("ubProjectileHeight: %d\n", ubProjectileHeight);
+    }
+    else {
+        if (PROJECTILE_SPEED < ubProjectileHeight) {
+            ubProjectileHeight -= PROJECTILE_SPEED;
+        }
+        else {
+            ubProjectileHeight = 0;
+        }
     }
 }
 
 UBYTE projectileIsJustMoved() {
-    return (ubProjectileFired || ubProjectileLastHeight) && ((sProjectileLastCoord.ulYX != sProjectileCoord.ulYX) || (ubProjectileLastHeight != ubProjectileHeight));
+    return (sProjectileLastCoord.ulYX != sProjectileCoord.ulYX) || (ubProjectileLastHeight != ubProjectileHeight);
 }

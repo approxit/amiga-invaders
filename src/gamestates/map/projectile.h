@@ -7,8 +7,8 @@
 #include "gamestates/map/ship.h"
 
 #define PROJECTILE_ATLAS_SIZE 1
-#define PROJECTILE_SPEED 3
-#define PROJECTILE_TIMER 10
+#define PROJECTILE_SPEED 5
+#define PROJECTILE_TIMER 150
 
 #define PROJECTILE_WIDTH 2
 #define PROJECTILE_HEIGHT 62
@@ -21,6 +21,7 @@ void projectileDraw();
 void projectileUndraw();
 void projectileFire();
 void projectileMove();
+void projectileAdjustHeight();
 UBYTE projectileIsJustMoved();
 
 #endif

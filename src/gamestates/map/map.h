@@ -9,4 +9,6 @@ void gsMapDestroy();
 
 void undrawShipWithEngine();
 
+void mapLoadLevel();
+
 #endif
