@@ -160,6 +160,21 @@ void shipTiltCenter() {
     }
 }
 
+UBYTE shipCheckCollision(UWORD uwX, UWORD uwY) {
+    if ((g_sShipCoord.sUwCoord.uwX <= uwX) && (uwX <= (g_sShipCoord.sUwCoord.uwX + SHIP_WIDTH))) {
+        if ((g_sShipCoord.sUwCoord.uwY <= uwY) && (uwY <= (g_sShipCoord.sUwCoord.uwY + SHIP_HEIGHT))) {
+            shipKill();
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+void shipKill() {
+    mapLoadLevel();
+}
+
 UBYTE shipIsJustTilted() {
     return ubShipTilt != ubShipLastTilt;
 }

@@ -26,6 +26,8 @@ typedef struct _tMonster {
     UBYTE ubFixupY;
 } tMonster;
 
+extern tMonster pMonsters[];
+
 void monsterCreateBitMapAtlas();
 void monsterDestroyBitMapAtlas();
 void monsterDraw();

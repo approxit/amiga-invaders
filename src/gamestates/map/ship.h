@@ -28,6 +28,8 @@ void shipMove();
 void shipTiltLeft();
 void shipTiltRight();
 void shipTiltCenter();
+UBYTE shipCheckCollision(UWORD uwX, UWORD uwY);
+void shipKill();
 UBYTE shipIsJustTilted();
 UBYTE shipIsJustMoved();
 

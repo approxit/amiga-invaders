@@ -7,6 +7,7 @@
 #include <ace/managers/game.h>
 #include <ace/managers/key.h>
 #include <ace/managers/blit.h>
+#include <ace/managers/rand.h>
 #include <ace/utils/extview.h>
 #include <ace/utils/palette.h>
 
@@ -24,6 +25,8 @@ tFont *g_pFont;
 tBitMap *g_pBackgroundBitMap;
 
 void genericCreate() {
+	randInit(2184);
+
 	g_pView = (tView *) viewCreate(0,
 		TAG_VIEW_GLOBAL_CLUT, 1,
 		TAG_DONE
@@ -48,12 +51,13 @@ void genericCreate() {
 
 	viewLoad(g_pView);
 
-	gamePushState(gsMapCreate, gsMapLoop, gsMapDestroy);
+	gamePushState(gsIntroCreate, gsIntroLoop, gsIntroDestroy);
 }
 
 void genericProcess() {
 	keyProcess();
 	gameProcess();
+
 	WaitTOF();
 }
 

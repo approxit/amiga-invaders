@@ -9,6 +9,7 @@
 #include "gamestates/map/engine.h"
 #include "gamestates/map/projectile.h"
 #include "gamestates/map/monster.h"
+#include "gamestates/map/monster_projectile.h"
 
 BYTE bMoveDir = 0;
 
@@ -62,6 +63,7 @@ void gsMapLoop() {
     shipMove();
     projectileMove();
     monsterMove();
+    monsterProjectileMove();
 
     if (shipIsJustMoved() || shipIsJustTilted() || engineIsPowerJustChanged()) {
         undrawShipWithEngine();
@@ -101,7 +103,7 @@ void mapLoadLevel() {
     blitCopyAligned(g_pBackgroundBitMap, 0, 0, g_pBufferManager->pBuffer, 0, 0, WINDOW_SCREEN_WIDTH, WINDOW_SCREEN_HEIGHT);
 
     monsterRemoveAll();
-    monsterGenerate(MONSTER_TYPE_RED, 6, 50, 20, 50, 0);
+    monsterGenerate(MONSTER_TYPE_RED, 5, 50, 20, 50, 0);
     monsterGenerate(MONSTER_TYPE_GREEN, 11, 30, 50, 25, 8);
     monsterGenerate(MONSTER_TYPE_GREEN, 11, 30, 80, 25, 8);
     monsterGenerate(MONSTER_TYPE_GRAY, 11, 30, 110, 25, 8);

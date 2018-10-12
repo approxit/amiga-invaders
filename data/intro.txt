@@ -18,6 +18,6 @@ Be in the elite ten and save humanity from invasion.
 
 Simulation graphics: Kojot
 Simulation code: Proxy
-Still work in progress
+Simulation state: Provisional. Still work in progress
 
 Hit SPACE to continue... 

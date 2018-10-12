@@ -25,7 +25,7 @@ clean:
 all: clean game
 
 gfx:
-	./contrib/ace/tools/palette_conv/palette_conv.exe res/colors.act data/colors.plt
+	./contrib/ace/tools/palette_conv/palette_conv.exe res/colors.gpl data/colors.plt
 
 	./contrib/ace/tools/bitmap_conv/bitmap_conv.exe data/colors.plt res/background.png -o data/background.bm
 

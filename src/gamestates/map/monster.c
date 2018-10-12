@@ -2,10 +2,12 @@
 
 #include <ace/managers/blit.h>
 #include <ace/managers/game.h>
+#include <ace/managers/rand.h>
 
 #include "game.h"
 #include "atlas.h"
 #include "gamestates/map/ship.h"
+#include "gamestates/map/monster_projectile.h"
 
 tBitMap *pMonsterBitMapAtlas[MONSTER_TYPE_COUNT][MONSTER_ATLAS_SIZE];
 tBitMap *pMonsterBitMapMaskAtlas[MONSTER_TYPE_COUNT][MONSTER_ATLAS_SIZE];
@@ -84,6 +86,10 @@ void monsterMove() {
         monsterMoveLeftRight();
 
         monsterDrawIndex(ubMonsterUpdateIndex);
+
+        if (200 < ubRand()) {
+            monsterProjectileFire(ubMonsterUpdateIndex);
+        }
     }
     else {
         ubMonsterFrame = (ubMonsterFrame + 1) % MONSTER_ATLAS_SIZE;
@@ -208,7 +214,6 @@ UBYTE monsterIsAnyTooLow() {
     while (ubIndex--) {
         if (pMonsters[ubIndex].ubType != MONSTER_TYPE_COUNT) {
             if (g_sShipCoord.sUwCoord.uwY <= pMonsters[ubIndex].sCoord.sUwCoord.uwY + MONSTER_HEIGHT) {
-                logWrite("TOO LOW\n");
                 return 1;
             }
         }

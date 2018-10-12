@@ -15,6 +15,9 @@
 #define PROJECTILE_SHIFT_Y 1
 #define PROJECTILE_SHIFT_X ((SHIP_WIDTH / 2) - (PROJECTILE_WIDTH / 2))
 
+extern tBitMap *pProjectileBitMapAtlas[PROJECTILE_ATLAS_SIZE];
+extern tBitMap *pProjectileBitMapMaskAtlas[PROJECTILE_ATLAS_SIZE];
+
 void projectileCreateBitMapAtlas();
 void projectileDestroyBitMapAtlas();
 void projectileDraw();
